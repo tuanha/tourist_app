@@ -1,0 +1,53 @@
+nav ul.nav li a {
+  text-decoration: none !important
+}
+.table ul.action li {
+  display: inline-block;
+  list-style: none;
+  margin: 0 5px;
+}
+.footer{
+  border-top:1px solid #e4e4e4;
+  margin-top:100px;
+  padding:20px 0 50px 0;
+}
+form#new_interview select{
+  background:#f2f1f0
+}
+table thead tr th {
+  text-align: center;
+}
+a {
+  text-decoration: none !important;
+}
+.main .btn {
+  display: inline-block !important;
+  margin-bottom: 0 !important;
+  font-weight: normal !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+  touch-action: manipulation !important;
+  cursor: pointer !important;
+  background-image: none !important;
+  border: 1px solid transparent !important;
+  white-space: nowrap;
+  padding: 6px 12px !important;
+  font-size: 14px !important;
+  line-height: 1.42857143 !important;
+  border-radius: 4px !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  color: #FFFFFF !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+.main .btn-primary,
+.main .btn-primary:hover {
+  background-color: #428bca !important;
+  border-color: #357ebd !important;
+}
+.main .top-header {
+  margin-bottom: 15px;
+}
+.main .top-header ..search-form input {margin-right: 15px}

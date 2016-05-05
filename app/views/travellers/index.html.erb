@@ -1,0 +1,54 @@
+<div class="row top-header">
+  <div class="search-form col-md-6">
+    <form action="<%= index_travellers_path %>" method="get" id="search_form" class="form-inline">
+      <%= text_field_tag :search_traveller_name, params[:search_traveller_name], :placeholder => "Search traveller name", class: 'form-control' %>
+      <%= submit_tag "Search", :class =>'btn btn-primary', :name => nil %>
+    </form>
+  </div>
+  <div class="new-tour col-md-offset-4 col-md-2 text-right">
+    <%= link_to 'New Traveller', new_traveller_path, :class => "btn btn-primary" %>
+  </div>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Index</th>
+      <th>Tour</th>
+      <th>Name</td>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Address</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @travellers.present? %>
+      <% @travellers.each_with_index do |traveller, index| %>
+        <tr>
+          <td class="text-center"><%= index + 1 %></td>
+          <td></td>
+          <td><%= traveller.name %></td>
+          <td class="text-center"><%= traveller.email %></td>
+          <td class="text-center"><%= traveller.phone %></td>
+          <td class="text-center"><%= traveller.address %></td>
+          <td class="text-center">
+            <ul class="action">
+              <li><a href="<%= traveller_path(traveller) %>"><i class="fa fa-eye"></i></a></li>
+              <li><a href="<%= edit_traveller_path(traveller)%>" ><i class="fa fa-pencil"></i></a></li>
+              <li><a href="<%= traveller_path(traveller)%>" data-method="delete" data-confirm="Are you sure ?"><i class="fa fa-times"></i></a></li>
+            </ul>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="9"><center>Data is empty!</center></td>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>
+<% if @travellers.present? %>
+  <%= will_paginate @travellers, renderer: BootstrapPagination::Rails %>
+<% end %>

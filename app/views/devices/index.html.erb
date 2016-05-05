@@ -1,0 +1,43 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Index</th>
+      <th>Name</td>
+      <th>Status</th>
+      <th>Code</th>
+      <th>Lat</th>
+      <th>lng</th>
+      <th>Create</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @devices.present? %>
+      <% @devices.each_with_index do |device, index| %>
+        <tr>
+          <td class="text-center"><%= index + 1 %></td>
+          <td><%= device.name %></td>
+          <td class="text-center"><%= device.status %></td>
+          <td class="text-center"><%= device.code %></td>
+          <td class="text-center"><%= device.lat %></td>
+          <td ><%= device.lng %></td>
+          <td class="text-center"><%= device.created_at %></td>
+          <td class="text-center">
+            <ul class="action">
+              <li><a href="<%= device_path(device) %>"><i class="fa fa-eye"></i></a></li>
+              <li><a href="<%= device_path(device)%>" data-method="delete" data-confirm="Are you sure ?"><i class="fa fa-times"></i></a></li>
+            </ul>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="9"><center>Data is empty!</center></td>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>
+<% if @devices.present? %>
+  <%= will_paginate @devices, renderer: BootstrapPagination::Rails %>
+<% end %>

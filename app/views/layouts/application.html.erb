@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TouristApp</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div class="main">
+    <div class="header container">
+      <%= link_to 'Tourist App', root_path, style: "font-size: 30px;line-height: 60px;color: red; text-decoration: none;" %>
+      <p style="font-size: 20px;font-weight: 200;margin-bottom: 18px;line-height: 17px">
+        Online traveller management system
+      </p>
+    </div>
+    <% if user_signed_in? %>
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+          <ul class="nav navbar-nav">
+            <li class="devices <%= 'active' if controller.controller_name == "devices" %>"> <%= link_to 'Devices', devices_path %></li>
+            <li class="tours <%= 'active' if controller.controller_name == "tours" %>"> <a data-method="get" href="/tours">Tour</a></li>
+            <li class="travellers <%= 'active' if controller.controller_name == "travellers" %>"> <a data-method="get" href="<%= index_travellers_path %>">Travellers</a></li>
+            <li class="tourguides <%= 'active' if controller.controller_name == "tourguides" %>"> <a style="border-right:none" data-method="get" href="<%= index_tourguides_path %>">Tourguides</a></li>
+            <li class="feedbacks <%= 'active' if controller.controller_name == "feedbacks" %>"><a href="/feedbacks">Feedbacks</a></li>
+          </ul>
+          <ul class="nav navbar-nav pull-right">
+            <li><%= link_to 'My profile', user_path(current_user)%></li>
+            <li><a href="/users/edit">Edit Profile</a></li>
+            <li><%= link_to "Logout", destroy_user_session_path, method: :DELETE %></li>
+          </ul>
+
+        </div>
+       </nav>
+     <% end %>
+    <div class="container">
+      <% flash.each do |message_type, message| %>
+        <div class="alert alert-flash alert-<%= message_type %>">
+          <% if message.kind_of?(Array) %>
+            <% message.each do |msg| %>
+              <%= msg %>
+              <%= raw("<br />") unless msg == message.last %>
+            <% end %>
+          <% else %>
+            <%= message %>
+          <% end %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <% end %>
+
+      <%= yield %>
+    </div>
+    <div class="footer">
+      <div class="container">
+        <p>
+          © <a href="http://www.scrum2b.com" target="_blank">Hiworld</a>. Made with <a href="http://twitter.com/twitter" target="_blank">@twitter</a> by <a href="#">hiworldteam</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

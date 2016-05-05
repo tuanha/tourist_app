@@ -1,0 +1,66 @@
+<div class="row top-header">
+  <div class="search-form col-md-6">
+    <form action="<%= tours_path %>" method="get" id="search_form" class="form-inline">
+      <div class="form-group">
+        <%= text_field_tag :search_tour_name, params[:search_tour_name], :placeholder => "Search tour name", class: 'form-control' %>
+        <%= submit_tag "Search", :class =>'btn btn-primary', :name => nil %>
+      </div>
+    </form>
+  </div>
+  <div class="new-tour col-md-offset-4 col-md-2 text-right">
+    <%= link_to 'New Tour', new_tour_path, :class => "btn btn-primary" %>
+  </div>
+</div>
+<table class="table table-bordered table-hover list-tour">
+  <thead>
+    <tr>
+      <th class="col-md-1">Index</th>
+      <th class="col-md-2">Name</th>
+      <th class="col-md-2">Number of Member</th>
+      <th class="col-md-3">Information</th>
+      <th class="col-md-2">Create at</th>
+      <th class="col-md-2">Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if @tours.present? %>
+      <% @tours.each_with_index do |tour, index| %>
+        <tr data-id-tour="<%= tour.id %>">
+          <th class="text-center"><%= index + 1%></th>
+          <td class="text-center"><%= tour.name.capitalize %></td>
+          <td class="text-center">50</td>
+          <td class="text-left"><%= truncate(strip_tags(tour.information.capitalize), :length => 100) %></td>
+          <td class="text-center "><%= tour.created_at.strftime("%d / %m / %Y") %></td>
+          <td class="text-center">
+            <ul class="list-unstyled list-inline text-center action-list">
+              <li>
+                <%= link_to(tour) do %>
+                  <i class="fa fa-eye" title="Show"></i>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to(edit_tour_path(tour)) do%>
+                  <i class="fa fa-pencil" title="Edit"></i>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to(tour, method: :delete, data: { confirm: 'Are you sure?' }) do %>
+                  <i class="fa fa-times" title="Delete"></i>
+                <% end %>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="6" class="text-center">Data is empty!</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% if @tours.present? %>
+  <%= will_paginate @tours, renderer: BootstrapPagination::Rails %>
+<% end %>
+
