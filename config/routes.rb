@@ -10,7 +10,14 @@ Rails.application.routes.draw do
 
   resources :users
   resources :devices
-  resources :tours
+
+  resources :tours do
+    collection do
+      post 'select_tourguide'
+      post 'cancel_tourguide'
+      post 'action_traveller'
+    end
+  end
 
   resources :tourguides do
     collection do

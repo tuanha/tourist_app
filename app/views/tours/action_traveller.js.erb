@@ -1,0 +1,16 @@
+$("#accepted").html("<%= raw escape_javascript(@return_content_accepted)%>");
+$("#pending").html("<%= raw escape_javascript(@return_content_pending)%>");
+$("#number-of-travellers").text("<%= @travellers_accepted.size %>")
+$('.action-traveller').on('click', function(){
+  var traveller_id = $(this).attr('data-traveller-id');
+  var tour_id = $(this).attr('data-tour-id');
+  var status = $(this).attr('data-status');
+  $.ajax({
+    url : '/tours/action_traveller',
+    method : "POST",
+    data : 'id=' + tour_id + '&traveller_id=' + traveller_id + '&status=' + status,
+    dataType : "script",
+    success : function(data) {
+    }
+  })
+})

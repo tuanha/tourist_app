@@ -1,6 +1,6 @@
 class ToursController < ApplicationController
-  before_action :set_tour, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  before_action :set_tour, only: [:show, :edit, :update, :destroy, :select_tourguide, :action_traveller]
 
   def index
     if params[:search_tour_name]
@@ -12,7 +12,9 @@ class ToursController < ApplicationController
 
   def show
     @travellers_pending = @tour.travellers.pending
-    @travellers_accept = @tour.travellers.accept
+    @travellers_accepted = @tour.travellers.accepted
+    @tourguides = Tourguide.not_tour
+    @tourguides_of_tour = @tour.tourguides
   end
 
   def new
@@ -56,6 +58,39 @@ class ToursController < ApplicationController
     end
   end
 
+  def select_tourguide
+    tourguide = Tourguide.find(params[:tourguide_id])
+    if tourguide.update(tour_id: params[:id])
+      flash[:success] = "Tourguide was successfully selected."
+    else
+      flash[:danger] = "Select tourguide was error"
+    end
+    render json: {}
+  end
+
+  def cancel_tourguide
+    tourguide = Tourguide.find(params[:tourguide_id])
+    if tourguide.update(tour_id: nil)
+      flash[:success] = "Tourguide was successfully cancel."
+    else
+      flash[:danger] = "Cancel tourguide was error"
+    end
+    render json: {}
+  end
+
+  def action_traveller
+    traveller_tour = @tour.traveller_tours.where(traveller_id: params[:traveller_id]).first
+    traveller_tour.update(status: params[:status])
+    travellers_pending = @tour.travellers.pending
+    @travellers_accepted = @tour.travellers.accepted
+
+    respond_to do |format|
+      format.js do
+        @return_content_accepted = render_to_string(partial: 'tours/travellers_accepted', locals: { tour: @tour, travellers_accepted: @travellers_accepted })
+        @return_content_pending = render_to_string(partial: 'tours/travellers_pending', locals: { tour: @tour, travellers_pending: travellers_pending })
+      end
+    end
+  end
 
   private
 

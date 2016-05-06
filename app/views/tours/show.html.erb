@@ -1,11 +1,11 @@
-<div class="row top-header">
+<div class="col-md-12 top-header">
   <div class="col-md-3 col-md-offset-9 text-right">
     <%= link_to 'Edit', edit_tour_path(@tour), :class => "btn btn-primary" %>
-    <%= link_to 'Back to Tour', tours_path, :class => "btn btn-primary" %>
+    <%= link_to 'Back to Tours', tours_path, :class => "btn btn-primary" %>
   </div>
 </div>
 <h3>Tour Info</h3>
-<div class="row">
+<div class="col-md-12">
   <div class="col-md-3">
     <strong>Name</strong>
   </div>
@@ -14,16 +14,16 @@
   </div>
 </div>
 
-<div class="row">
+<div class="col-md-12">
   <div class="col-md-3">
     <strong>Number of travellers</strong>
   </div>
   <div class="col-md-9">
-    <p><%= @tour.travellers.size %></p>
+    <p id="number-of-travellers"><%= @travellers_accepted.size %></p>
   </div>
 </div>
 
-<div class="row">
+<div class="col-md-12">
   <div class="col-md-3">
     <strong>Information</strong>
   </div>
@@ -33,85 +33,64 @@
 </div>
 
 <h3>Tourguide</h3>
-
+<div class="col-md-12">
+  <button class="pull-right btn btn-primary" data-toggle="modal" data-target="#change_tourguide">Select Tourguide</button>
+  <div class="clearfix"></div>
+  <% if @tourguides_of_tour.present? %>
+    <% @tourguides_of_tour.each do |tourguide| %>
+      <div class="tourguide_info">
+        <div class="col-md-2">
+          <%= image_tag tourguide.avatar.url(:thumb) %>
+        </div>
+        <div class="col-md-9">
+          <p>Name: <%= tourguide.name %></p>
+          <p>Email: <%= tourguide.email %></p>
+          <p>Phone number: <%= tourguide.phone %></p>
+          <p>Address: <%= tourguide.address %></p>
+          <p>Gender: <%= tourguide.gender %></p>
+        </div>
+        <div class="col-md-1 text-center">
+          <button class="btn btn-danger cancel-tourguide" data-tourguide-id="<%= tourguide.id %>">Cancel</button>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
 <h3>Travelers</h3>
 
-<div class="row">
+<div class="col-md-12" id="data-travellers">
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#accept" aria-controls="accept" role="tab" data-toggle="tab">Accept</a></li>
+    <li role="presentation" class="active"><a href="#accepted" aria-controls="accepted" role="tab" data-toggle="tab">Accepted</a></li>
     <li role="presentation"><a href="#pending" aria-controls="pending" role="tab" data-toggle="tab">Pending</a></li>
   </ul>
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="accept">
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>Index</th>
-            <th>Email</th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Phone number</th>
-            <th>Device</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if @travellers_accept.present? %>
-            <% @travellers_accept.each_with_index do |traveller, index| %>
-              <tr>
-                <td><%= index + 1 %></td>
-                <td><%= traveller.email %></td>
-                <td><%= traveller.name %></td>
-                <td><%= traveller.address %></td>
-                <td><%= traveller.phone %></td>
-                <td><%=  %></td>
-                <td><button type="button" class="btn btn-danger">Cancel</button></td>
-              </tr>
-            <% end %>
-          <% else %>
-            <tr>
-              <td colspan="7"><center>Data is empty!</center></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+    <div role="tabpanel" class="tab-pane active" id="accepted">
+      <%= render partial: "travellers_accepted", locals: { travellers_accepted: @travellers_accepted, tour: @tour } %>
     </div>
     <div role="tabpanel" class="tab-pane" id="pending">
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>Index</th>
-            <th>Email</th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Phone number</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if @travellers_pending.present? %>
-            <% @travellers_pending.each_with_index do |traveller, index| %>
-              <tr>
-                <td><%= index + 1 %></td>
-                <td><%= traveller.email %></td>
-                <td><%= traveller.name %></td>
-                <td><%= traveller.address %></td>
-                <td><%= traveller.phone %></td>
-                <td class="text-center">
-                  <button type="button" class="btn btn-danger">Cancel</button>
-                  <button type="button" class="btn btn-success">Accept</button>
-                </td>
-              </tr>
-            <% end %>
-          <% else %>
-            <tr>
-              <td colspan="6"><center>Data is empty!</center></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+      <%= render partial: "travellers_pending", locals: { travellers_pending: @travellers_pending, tour: @tour } %>
     </div>
   </div>
 </div>
 
-
+<div class="modal fade" id="change_tourguide" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Select tourguide for the tour</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table table-striped">
+          <% @tourguides.each do |tourguide| %>
+            <tr>
+              <td class="text-center"><%= image_tag tourguide.avatar.url(:thumb) %></td>
+              <td><%= tourguide.email %></td>
+              <td><button class="btn btn-primary select_tourguide" data-tourguide-id="<%= tourguide.id %>" data-tour-id="<%= @tour.id %>">Select</button></td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

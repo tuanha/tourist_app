@@ -1,0 +1,32 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Index</th>
+      <th>Email</th>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Phone number</th>
+      <th>Device</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if travellers_accepted.present? %>
+      <% travellers_accepted.each_with_index do |traveller, index| %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= traveller.email %></td>
+          <td><%= traveller.name %></td>
+          <td><%= traveller.address %></td>
+          <td><%= traveller.phone %></td>
+          <td><%=  %></td>
+          <td><button type="button" class="btn btn-danger action-traveller" data-tour-id="<%= tour.id %>" data-traveller-id="<%= traveller.id %>" data-status="<%= TravellerTour::STATUS[:cancel] %>">Cancel</button></td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="7"><center>Data is empty!</center></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -14,7 +14,7 @@ class Traveller < ActiveRecord::Base
 
   scope :pending, -> { joins(:traveller_tours).where('traveller_tours.status = ?', TravellerTour::STATUS[:pending]) }
   scope :cancel, -> { joins(:traveller_tours).where('traveller_tours.status = ?', TravellerTour::STATUS[:cancel]) }
-  scope :accept, -> { joins(:traveller_tours).where('traveller_tours.status = ?', TravellerTour::STATUS[:accept]) }
+  scope :accepted, -> { joins(:traveller_tours).where('traveller_tours.status = ?', TravellerTour::STATUS[:accepted]) }
 
   def self.search(name)
     where("name like ? ", name)

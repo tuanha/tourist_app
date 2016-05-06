@@ -9,6 +9,10 @@ class Tourguide < ActiveRecord::Base
 
   GENDER = ['male', 'female']
 
+  belongs_to :tour
+
+  scope :not_tour, -> { where tour_id: nil }
+
   def self.search(name)
     where("name like ? ","%#{name}%")
   end

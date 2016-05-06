@@ -1,3 +1,14 @@
 // Place all the styles related to the tours controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+#change_tourguide td img {
+  width: 50px;
+}
+#change_tourguide .modal-body {
+  min-height: 200px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+.tourguide_info {
+  margin: 20px 0;
+}
