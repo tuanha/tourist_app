@@ -1,0 +1,38 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Index</th>
+      <th>Traveller</td>
+      <th>Comment</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @feedbacks.present? %>
+      <% @feedbacks.each_with_index do |feedback, index| %>
+        <tr>
+          <td class="text-center col-md-1"><%= index + 1 %></td>
+          <td><%= link_to feedback.traveller.name, traveller_path(feedback.traveller) %></td>
+          <td class="text-center"><%= feedback.comment %></td>
+          <td class="text-center col-md-2">
+            <ul class="action">
+              <li><a href="<%= feedback_path(feedback) %>"><i class="fa fa-eye"></i></a></li>
+              <li><a href="<%= edit_feedback_path(feedback)%>" ><i class="fa fa-pencil"></i></a></li>
+              <li><a href="<%= feedback_path(feedback)%>" data-method="delete" data-confirm="Are you sure ?"><i class="fa fa-times"></i></a></li>
+            </ul>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="9"><center>Data is empty!</center></td>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>
+<% if @feedbacks.present? %>
+  <div class="text-center">
+    <%= will_paginate @feedbacks, renderer: BootstrapPagination::Rails %>
+  </div>
+<% end %>

@@ -10,12 +10,15 @@ Rails.application.routes.draw do
 
   resources :users
   resources :devices
+  resources :feedbacks
 
   resources :tours do
     collection do
       post 'select_tourguide'
       post 'cancel_tourguide'
       post 'action_traveller'
+      post 'remove_device'
+      post 'set_device'
     end
   end
 
@@ -33,6 +36,13 @@ Rails.application.routes.draw do
       patch 'update'
       get 'index', as: :index
     end
+  end
+
+  namespace :api do
+    get "devices" => "devices#show"
+    post "devices" =>"devices#create"
+    get "tours" => "tours#show"
+    post 'tours/join' => "tours#join"
   end
 
   # Example of regular route:

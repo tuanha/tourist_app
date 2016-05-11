@@ -6,6 +6,10 @@ class Traveller < ActiveRecord::Base
 
   has_many :traveller_tours, dependent: :destroy
   has_many :tours, through: :traveller_tours
+  has_one :assign_device, dependent: :destroy
+  has_one :device, through: :assign_device
+
+  has_many :feedbacks, dependent: :destroy
 
   has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: ActionController::Base.helpers.asset_path('missing.png')
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/

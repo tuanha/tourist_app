@@ -14,7 +14,7 @@
   <thead>
     <tr>
       <th>Index</th>
-      <th>Tour</th>
+      <th>Avatar</td>
       <th>Name</td>
       <th>Email</th>
       <th>Phone</th>
@@ -26,13 +26,13 @@
     <% if @tourguides.present? %>
       <% @tourguides.each_with_index do |tourguide, index| %>
         <tr>
-          <td class="text-center"><%= index + 1 %></td>
-          <td></td>
+          <td class="text-center col-md-1"><%= index + 1 %></td>
+          <td class="text-center col-md-1"><%= image_tag tourguide.avatar.url(:thumb), class: 'avatar' %></td>
           <td><%= tourguide.name %></td>
           <td class="text-center"><%= tourguide.email %></td>
           <td class="text-center"><%= tourguide.phone %></td>
           <td class="text-center"><%= tourguide.address %></td>
-          <td class="text-center">
+          <td class="text-center col-md-2">
             <ul class="action">
               <li><a href="<%= tourguide_path(tourguide) %>"><i class="fa fa-eye"></i></a></li>
               <li><a href="<%= edit_tourguide_path(tourguide)%>" ><i class="fa fa-pencil"></i></a></li>
@@ -43,12 +43,14 @@
       <% end %>
     <% else %>
       <tr>
-        <td colspan="9"><center>Data is empty!</center></td>
+        <td colspan="10"><center>Data is empty!</center></td>
       </tr>
     <% end %>
 
   </tbody>
 </table>
 <% if @tourguides.present? %>
-  <%= will_paginate @tourguides, renderer: BootstrapPagination::Rails %>
+  <div class="text-center">
+    <%= will_paginate @tourguides, renderer: BootstrapPagination::Rails %>
+  </div>
 <% end %>

@@ -27,15 +27,15 @@
     <% if @tours.present? %>
       <% @tours.each_with_index do |tour, index| %>
         <tr data-id-tour="<%= tour.id %>">
-          <th class="text-center"><%= index + 1%></th>
+          <th class="text-center col-md-1"><%= index + 1%></th>
           <td class="text-center"><%= tour.name.capitalize %></td>
           <td class="text-center">50</td>
           <td class="text-left"><%= truncate(strip_tags(tour.information.capitalize), :length => 100) %></td>
           <td class="text-center "><%= tour.created_at.strftime("%d / %m / %Y") %></td>
-          <td class="text-center">
+          <td class="text-center col-md-2">
             <ul class="list-unstyled list-inline text-center action-list">
               <li>
-                <%= link_to(tour) do %>
+                <%= link_to(tour, 'data-no-turbolink' => true) do %>
                   <i class="fa fa-eye" title="Show"></i>
                 <% end %>
               </li>
@@ -61,6 +61,8 @@
   </tbody>
 </table>
 <% if @tours.present? %>
-  <%= will_paginate @tours, renderer: BootstrapPagination::Rails %>
+  <div class="text-center">
+    <%= will_paginate @tours, renderer: BootstrapPagination::Rails %>
+  </div>
 <% end %>
 

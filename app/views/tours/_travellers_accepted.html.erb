@@ -2,12 +2,13 @@
   <thead>
     <tr>
       <th>Index</th>
+      <th>Avatar</th>
       <th>Email</th>
       <th>Name</th>
       <th>Address</th>
       <th>Phone number</th>
       <th>Device</th>
-      <th></th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -15,17 +16,20 @@
       <% travellers_accepted.each_with_index do |traveller, index| %>
         <tr>
           <td><%= index + 1 %></td>
+          <td class="text-center col-md-1"><%=  link_to(traveller) do %>
+              <%= image_tag traveller.avatar.url(:thumb), class: 'avatar' %>
+            <% end %></td>
           <td><%= traveller.email %></td>
-          <td><%= traveller.name %></td>
+          <td><%= link_to traveller.name, traveller %></td>
           <td><%= traveller.address %></td>
           <td><%= traveller.phone %></td>
-          <td><%=  %></td>
-          <td><button type="button" class="btn btn-danger action-traveller" data-tour-id="<%= tour.id %>" data-traveller-id="<%= traveller.id %>" data-status="<%= TravellerTour::STATUS[:cancel] %>">Cancel</button></td>
+          <td><%= device_info(traveller) %></td>
+          <td class="col-md-1"><button type="button" class="btn btn-danger action-traveller" data-tour-id="<%= tour.id %>" data-traveller-id="<%= traveller.id %>" data-status="<%= TravellerTour::STATUS[:cancel] %>">Cancel</button></td>
         </tr>
       <% end %>
     <% else %>
       <tr>
-        <td colspan="7"><center>Data is empty!</center></td>
+        <td colspan="8"><center>Data is empty!</center></td>
       </tr>
     <% end %>
   </tbody>

@@ -15,6 +15,7 @@ class ToursController < ApplicationController
     @travellers_accepted = @tour.travellers.accepted
     @tourguides = Tourguide.not_tour
     @tourguides_of_tour = @tour.tourguides
+    @device_availabes = Device.availabe
   end
 
   def new
@@ -63,7 +64,7 @@ class ToursController < ApplicationController
     if tourguide.update(tour_id: params[:id])
       flash[:success] = "Tourguide was successfully selected."
     else
-      flash[:danger] = "Select tourguide was error"
+      flash[:danger] = "Select tourguide failure"
     end
     render json: {}
   end
@@ -73,7 +74,7 @@ class ToursController < ApplicationController
     if tourguide.update(tour_id: nil)
       flash[:success] = "Tourguide was successfully cancel."
     else
-      flash[:danger] = "Cancel tourguide was error"
+      flash[:danger] = "Cancel tourguide failure"
     end
     render json: {}
   end
@@ -90,6 +91,28 @@ class ToursController < ApplicationController
         @return_content_pending = render_to_string(partial: 'tours/travellers_pending', locals: { tour: @tour, travellers_pending: travellers_pending })
       end
     end
+  end
+
+  def remove_device
+    if AssignDevice.find_by_device_id(params[:device_id]).destroy
+      flash[:success] = "Remove device was successfully."
+    else
+      flash[:danger] = "Remove device failure"
+    end
+    render json: {}
+  end
+
+  def set_device
+    params_assign = {device_id: params[:device_id]}
+    params[:type] == 'Tourguide' ? params_assign.merge!(tourguide_id: params[:user_id]) : params_assign.merge!(traveller_id: params[:user_id])
+    assign_device = AssignDevice.new(params_assign)
+
+    if assign_device.save
+      flash[:success] = "Set device for #{params[:type]} was successfully."
+    else
+      flash[:danger] = assign_device.errors.full_messages
+    end
+    render json: {}
   end
 
   private

@@ -1,3 +1,6 @@
+.padding-0 {
+  padding: 0px !important;
+}
 nav ul.nav li a {
   text-decoration: none !important
 }
@@ -5,6 +8,9 @@ nav ul.nav li a {
   display: inline-block;
   list-style: none;
   margin: 0 5px;
+}
+.table img.avatar {
+  width: 35px;
 }
 .footer{
   border-top:1px solid #e4e4e4;
@@ -19,6 +25,11 @@ table thead tr th {
 }
 a {
   text-decoration: none !important;
+}
+.alert-notice {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #3c763d;
 }
 .main .btn {
   display: inline-block !important;
@@ -51,3 +62,4 @@ a {
   margin-bottom: 15px;
 }
 .main .top-header ..search-form input {margin-right: 15px}
+.remove-device {color: #c9302c; cursor: pointer;}

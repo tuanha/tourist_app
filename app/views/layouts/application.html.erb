@@ -22,7 +22,7 @@
             <li class="tours <%= 'active' if controller.controller_name == "tours" %>"> <a data-method="get" href="/tours">Tour</a></li>
             <li class="travellers <%= 'active' if controller.controller_name == "travellers" %>"> <a data-method="get" href="<%= index_travellers_path %>">Travellers</a></li>
             <li class="tourguides <%= 'active' if controller.controller_name == "tourguides" %>"> <a style="border-right:none" data-method="get" href="<%= index_tourguides_path %>">Tourguides</a></li>
-            <li class="feedbacks <%= 'active' if controller.controller_name == "feedbacks" %>"><a href="/feedbacks">Feedbacks</a></li>
+            <li class="feedbacks <%= 'active' if controller.controller_name == "feedbacks" %>"><a href="<%= feedbacks_path %>">Feedbacks</a></li>
           </ul>
           <ul class="nav navbar-nav pull-right">
             <li><%= link_to 'My profile', user_path(current_user)%></li>

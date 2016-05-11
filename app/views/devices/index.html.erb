@@ -15,15 +15,15 @@
     <% if @devices.present? %>
       <% @devices.each_with_index do |device, index| %>
         <tr>
-          <td class="text-center"><%= index + 1 %></td>
+          <td class="text-center col-md-1"><%= index + 1 %></td>
           <td><%= device.name %></td>
-          <td class="text-center"><%= device.status %></td>
+          <td class="text-center"><%= device.availabe? %></td>
           <td class="text-center"><%= device.code %></td>
           <td class="text-center"><%= device.lat %></td>
           <td ><%= device.lng %></td>
           <td class="text-center"><%= device.created_at %></td>
-          <td class="text-center">
-            <ul class="action">
+          <td class="text-center col-md-1">
+            <ul class="action padding-0">
               <li><a href="<%= device_path(device) %>"><i class="fa fa-eye"></i></a></li>
               <li><a href="<%= device_path(device)%>" data-method="delete" data-confirm="Are you sure ?"><i class="fa fa-times"></i></a></li>
             </ul>
@@ -39,5 +39,7 @@
   </tbody>
 </table>
 <% if @devices.present? %>
-  <%= will_paginate @devices, renderer: BootstrapPagination::Rails %>
+  <div class="text-center">
+    <%= will_paginate @devices, renderer: BootstrapPagination::Rails %>
+  </div>
 <% end %>

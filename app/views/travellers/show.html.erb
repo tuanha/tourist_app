@@ -1,6 +1,14 @@
-<%= image_tag @traveller.avatar.url(:thumb) %>
-<%= @traveller.name %>
-<%= @traveller.gender %>
-<%= @traveller.address %>
-<%= @traveller.phone %>
-
+<div class="row tourguide_info">
+  <h3>Traveller Detail</h3>
+  <br />
+  <div class="col-md-2">
+    <%= image_tag @traveller.avatar.url(:thumb) %>
+  </div>
+  <div class="col-md-10">
+    <p>Name: <%= @traveller.name %></p>
+    <p>Email: <%= @traveller.email %></p>
+    <p>Phone number: <%= @traveller.phone %></p>
+    <p>Address: <%= @traveller.address %></p>
+    <p>Gender: <%= @traveller.gender %></p>
+  </div>
+</div>
