@@ -1,4 +1,5 @@
 class Api::ToursController < ApplicationController
+  before_filter :authenticate_request!
 
   def show
     tours = Tour.all

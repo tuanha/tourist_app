@@ -6,11 +6,12 @@ $(document).ready ->
   $('.remove-device').on 'click', ->
     if confirm('Are you sure?')
       device_id = $(this).attr('data-device-id')
+      tour_id = $(this).attr('data-tour-id')
       $.ajax
         url: '/tours/remove_device'
         type: 'post'
         dateType: 'json'
-        data: 'device_id=' + device_id
+        data: 'device_id=' + device_id + '&id=' + tour_id
         success: (result) ->
           window.location.reload()
           return
@@ -20,6 +21,7 @@ $(document).ready ->
     device_id = $(this).val()
     type = $(this).attr('data_type')
     user_id = $(this).attr('data_user_id')
+    tour_id = $(this).attr('data_tour_id')
     if device_id == ''
       return false
     else
@@ -27,7 +29,7 @@ $(document).ready ->
         url: '/tours/set_device'
         type: 'post'
         dateType: 'json'
-        data: 'device_id=' + device_id + '&type=' + type + '&user_id=' + user_id
+        data: 'device_id=' + device_id + '&type=' + type + '&user_id=' + user_id + '&id=' + tour_id
         success: (result) ->
           window.location.reload()
           return
@@ -49,10 +51,11 @@ $(document).ready ->
   $('.cancel-tourguide').on 'click', ->
     if confirm('Are you sure?')
       tourguide_id = $(this).attr('data-tourguide-id')
+      tour_id = $(this).attr('data-tour-id')
       $.ajax
         url: '/tours/cancel_tourguide'
         method: 'POST'
-        data: 'tourguide_id=' + tourguide_id
+        data: 'tourguide_id=' + tourguide_id + '&id=' + tour_id
         dataType: 'json'
         success: (data) ->
           window.location.reload()

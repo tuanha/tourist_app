@@ -7,14 +7,16 @@ class Tourguide < ActiveRecord::Base
   has_one :device, dependent: :destroy
   has_one :assign_device, dependent: :destroy
   has_one :device, through: :assign_device
-  belongs_to :tour
+
+  has_many :tourguide_tours, dependent: :destroy
+  has_many :tours, through: :tourguide_tours
 
   has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: ActionController::Base.helpers.asset_path('missing.png')
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
   GENDER = ['male', 'female']
 
-  scope :not_tour, -> { where tour_id: nil }
+  scope :not_in_tour, -> (tour_id) { where.not(id: [Tour.find(tour_id).tourguides.map(&:id)]) }
 
   def self.search(name)
     where("name like ? ","%#{name}%")

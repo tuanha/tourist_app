@@ -1,6 +1,6 @@
 class ToursController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_tour, only: [:show, :edit, :update, :destroy, :select_tourguide, :action_traveller]
+  before_action :set_tour, only: [:show, :edit, :update, :destroy, :select_tourguide, :cancel_tourguide, :action_traveller, :set_device, :remove_device]
 
   def index
     if params[:search_tour_name]
@@ -13,7 +13,7 @@ class ToursController < ApplicationController
   def show
     @travellers_pending = @tour.travellers.pending
     @travellers_accepted = @tour.travellers.accepted
-    @tourguides = Tourguide.not_tour
+    @tourguides = Tourguide.not_in_tour(@tour.id)
     @tourguides_of_tour = @tour.tourguides
     @device_availabes = Device.availabe
   end
@@ -60,18 +60,21 @@ class ToursController < ApplicationController
   end
 
   def select_tourguide
-    tourguide = Tourguide.find(params[:tourguide_id])
-    if tourguide.update(tour_id: params[:id])
+    tourguide_tour = @tour.tourguide_tours.new(tourguide_id: params[:tourguide_id])
+
+    if tourguide_tour.save
       flash[:success] = "Tourguide was successfully selected."
     else
       flash[:danger] = "Select tourguide failure"
     end
+
     render json: {}
   end
 
   def cancel_tourguide
-    tourguide = Tourguide.find(params[:tourguide_id])
-    if tourguide.update(tour_id: nil)
+    tourguide_tour = @tour.tourguide_tours.where(tourguide_id: params[:tourguide_id]).first
+
+    if tourguide_tour.delete
       flash[:success] = "Tourguide was successfully cancel."
     else
       flash[:danger] = "Cancel tourguide failure"
@@ -94,7 +97,9 @@ class ToursController < ApplicationController
   end
 
   def remove_device
+    device = Device.find(params[:device_id])
     if AssignDevice.find_by_device_id(params[:device_id]).destroy
+      device.update(tour_id: nil)
       flash[:success] = "Remove device was successfully."
     else
       flash[:danger] = "Remove device failure"
@@ -103,11 +108,13 @@ class ToursController < ApplicationController
   end
 
   def set_device
+    device = Device.find(params[:device_id])
     params_assign = {device_id: params[:device_id]}
     params[:type] == 'Tourguide' ? params_assign.merge!(tourguide_id: params[:user_id]) : params_assign.merge!(traveller_id: params[:user_id])
     assign_device = AssignDevice.new(params_assign)
 
     if assign_device.save
+      device.update(tour_id: @tour.id)
       flash[:success] = "Set device for #{params[:type]} was successfully."
     else
       flash[:danger] = assign_device.errors.full_messages

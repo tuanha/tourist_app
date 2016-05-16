@@ -6,6 +6,7 @@ class CreateDevices < ActiveRecord::Migration
       t.string   :lng
       t.string   :code
       t.string   :reg_id
+      t.integer  :tour_id
       t.timestamps null: false
     end
   end

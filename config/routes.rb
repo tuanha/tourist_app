@@ -45,6 +45,8 @@ Rails.application.routes.draw do
     post 'tours/join' => "tours#join"
   end
 
+  post 'api/authenticate_user' => "authentication#authenticate_user"
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

@@ -23,7 +23,7 @@
           <td><%= link_to traveller.name, traveller %></td>
           <td><%= traveller.address %></td>
           <td><%= traveller.phone %></td>
-          <td><%= device_info(traveller) %></td>
+          <td><%= device_info(traveller, tour) %></td>
           <td class="col-md-1"><button type="button" class="btn btn-danger action-traveller" data-tour-id="<%= tour.id %>" data-traveller-id="<%= traveller.id %>" data-status="<%= TravellerTour::STATUS[:cancel] %>">Cancel</button></td>
         </tr>
       <% end %>
