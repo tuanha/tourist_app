@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     get "devices" => "devices#show"
     post "devices" => "devices#create"
     post "devices/update_position" => "devices#update_position"
+    get "users/list" => "tours#users_list"
     get "tours" => "tours#show"
     post 'tours/join' => "tours#join"
   end
