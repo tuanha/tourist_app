@@ -48,4 +48,19 @@ class Api::DevicesController < ApplicationController
     end
   end
 
+  def update_position
+    render json: {status: 0, message: "Missing device code update"} and return if params[:code].blank?
+
+    device = Device.find_by_code(params[:code])
+    render json: {status: 0, message: "Device not already in system"} and return unless device.present?
+
+    render json: {status: 0, message: "Missing information lat or lng"} and return if params[:lat].blank? or params[:lng].blank?
+    
+    if device.update(lat: params[:lat], lng: params[:lng])
+      render json: {status: 1, message: "Success"}
+    else
+      render json: {status: 0, message: "Can't update position"}
+    end
+  end
+
 end
