@@ -2,9 +2,9 @@ class Api::DevicesController < ApplicationController
   skip_before_filter  :verify_authenticity_token
 
   def show
-    render json:{status: 0, message:"Not found information device code or regID code"} and return if params[:device_code].blank? or params[:regId_code].blank?
+    render json:{status: 0, message:"Not found information device code or regID code"} and return if params[:code].blank? or params[:regId_code].blank?
 
-    device = Device.find_by_code(params[:device_code])
+    device = Device.find_by_code(params[:code])
 
     render json:{ status: 0, message: "Device not already in system" } and return unless device.present?
 
@@ -14,20 +14,22 @@ class Api::DevicesController < ApplicationController
     device.update(reg_id: params[:regId_code]) if device.reg_id != params[:regId_code]
 
     render json:{
-                status: 1, message: "Success", details:{
-                  group: user.class.name, name_device: device.name,
-                  info:{
+                status: 1, message: "Success",
+                  device: {
+                    id: device.id,
+                    name: device.name,
+                  },
+                  user: {
                     id: user.id,
+                    type: user.class.name,
                     name: user.name,
                     address: user.address,
-                    tour_name: user.tour.name,
                     images: user.avatar.url,
                     lat: device.lat == nil ? 0 : device.lat,
                     lng: device.lng == nil ? 0 : device.lng,
                     phone: user[:phone],
-                    device_id: device.id
+                    tour_name: device.tour.name,
                   }
-                }
               }
   end
 
@@ -43,6 +45,21 @@ class Api::DevicesController < ApplicationController
       render json: {status: 1, message: "Success"}
     else
       render json: {status: 0, message: new_device.errors.full_messages}
+    end
+  end
+
+  def update_position
+    render json: {status: 0, message: "Missing device code update"} and return if params[:code].blank?
+
+    device = Device.find_by_code(params[:code])
+    render json: {status: 0, message: "Device not already in system"} and return unless device.present?
+
+    render json: {status: 0, message: "Missing information lat or lng"} and return if params[:lat].blank? or params[:lng].blank?
+    
+    if device.update(lat: params[:lat], lng: params[:lng])
+      render json: {status: 1, message: "Success"}
+    else
+      render json: {status: 0, message: "Can't update position"}
     end
   end
 
