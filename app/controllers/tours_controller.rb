@@ -87,6 +87,7 @@ class ToursController < ApplicationController
     traveller_tour.update(status: params[:status])
     travellers_pending = @tour.travellers.pending
     @travellers_accepted = @tour.travellers.accepted
+    @device_availabes = Device.availabe
 
     respond_to do |format|
       format.js do
