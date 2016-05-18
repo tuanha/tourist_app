@@ -8,10 +8,11 @@ class Device < ActiveRecord::Base
   scope :availabe, -> { where tour_id: nil }
 
   def availabe?
-    tour.present?
+    !tour.present?
   end
 
   def user
     traveller || tourguide
   end
+
 end
