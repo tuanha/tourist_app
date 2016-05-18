@@ -14,4 +14,5 @@ class Device < ActiveRecord::Base
   def user
     traveller || tourguide
   end
+
 end
