@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160516022121) do
+ActiveRecord::Schema.define(version: 20160518041836) do
 
   create_table "assign_devices", force: :cascade do |t|
     t.integer  "device_id"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20160516022121) do
     t.integer  "traveller_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.string   "rating"
   end
 
   create_table "tourguide_tours", force: :cascade do |t|

@@ -1,5 +1,6 @@
 class Api::ToursController < ApplicationController
   # before_filter :authenticate_request!
+  skip_before_filter  :verify_authenticity_token
 
   def show
     tours = Tour.all
@@ -34,6 +35,25 @@ class Api::ToursController < ApplicationController
                  phone: user[:phone],
     		}
     	}
+  end
+
+  def feedbacks
+    render json: { status: 0, message: "Missing device code."} and return if params[:code].blank?
+
+    device = Device.find_by_code(params[:code])
+    render json: {status: 0, message: "Device not already in system"} and return unless device.present?
+
+    traveller = device.traveller 
+    render json: {status: 0, message: "You have no right to send feedback"} and return unless  traveller.present?
+
+    feedbacks = traveller.feedbacks.new(comment: params[:comment], rating: params[:rating])
+
+    if feedbacks.save
+      render json: { status: 1, message: "Success"}
+    else
+      render json: { status: 0, message: "Can't send feedback"}
+    end
+
   end
 
 end
