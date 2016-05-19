@@ -53,7 +53,11 @@ class Api::ToursController < ApplicationController
     else
       render json: { status: 0, message: "Can't send feedback"}
     end
+  end
 
+  def search
+      tours = Tour.search(params[:name])
+      render  json: {status: 1, message: "Success", result: tours.map {|tour| tour.info_tour} }
   end
 
 end

@@ -11,7 +11,10 @@ class Tour < ActiveRecord::Base
   has_many :devices, dependent: :destroy
 
   def self.search(name)
-    where("name like ?", name)
+    where("name LIKE ?",  "%#{name}%")
   end
 
+  def info_tour
+    {id: id, name: name, information: information, members: travellers.accepted.size}
+  end
 end
