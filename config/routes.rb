@@ -44,6 +44,7 @@ Rails.application.routes.draw do
     post "devices/update_position" => "devices#update_position"
     get "tours/list_users" => "tours#users_list"
     post "tours/feedbacks" => "tours#feedbacks"
+    post "tours/search" => "tours#search"
     get "tours" => "tours#show"
     post 'tours/join' => "tours#join"
   end
