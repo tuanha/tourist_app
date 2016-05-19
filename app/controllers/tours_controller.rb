@@ -3,7 +3,7 @@ class ToursController < ApplicationController
   before_action :set_tour, only: [:show, :edit, :update, :destroy, :select_tourguide, :cancel_tourguide, :action_traveller, :set_device, :remove_device]
 
   def index
-    if params[:search_tour_name]
+    if params[:search_tour_name].present?
       @tours = Tour.search(params[:search_tour_name]).order("created_at DESC").paginate(:page => params[:page], :per_page => 30)
     else
       @tours = Tour.all.order("created_at DESC").paginate(:page => params[:page], :per_page => 30)

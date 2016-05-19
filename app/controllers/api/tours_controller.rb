@@ -53,29 +53,11 @@ class Api::ToursController < ApplicationController
     else
       render json: { status: 0, message: "Can't send feedback"}
     end
-
   end
 
   def search
-
-    tour = Tour.search(params[:name])
-    tour_all = Tour.find_by_name(params[:name])
-    tour.each_with_index do |t,i|
-    # byebug
-    if tour
-      render  json: {
-        status: 1, message: "Success",
-        result: {
-          id: t.id ,
-          name: t.name,
-          members: tour_all.travellers.includes(:traveller_tours).select(:traveller_id).count,
-        }
-      }
-    else
-      render json: {status: 1, message: "Not success"}
-    end
-
-    end
+      tours = Tour.search(params[:name])
+      render  json: {status: 1, message: "Success", result: tours.map {|tour| tour.info_tour} }
   end
 
 end
