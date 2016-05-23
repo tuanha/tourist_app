@@ -61,8 +61,9 @@ class Api::ToursController < ApplicationController
   end
 
   def join_tours
-    traveller_tour = TravellerTour.find_by(params[:tour_id])
-    render json: { status: 0, message: "You had join the tour"} and return if !traveller_tour.present? and traveller_tour.accepted
+    traveller = Traveller.find_by(params[:id])
+    tour = traveller.tours.find_by(params[:tour_id])
+    render json: { status: 0, message: "You had join the tour"} and return if !tour.present? and tour.status == "accepted"
 
     traveller_tour = TravellerTour.new(tour_id: params[:tour_id], traveller_id: params[:traveller_id])
     if traveller_tour.save
