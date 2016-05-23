@@ -45,6 +45,8 @@ Rails.application.routes.draw do
     get "tours/list_users" => "tours#users_list"
     post "tours/feedbacks" => "tours#feedbacks"
     post "tours/search" => "tours#search"
+    post "tours/join_tours" => "tours#join_tours"
+    post "authenticate_user" => "tours#authenticate_user"
     get "tours" => "tours#show"
     post 'tours/join' => "tours#join"
   end
